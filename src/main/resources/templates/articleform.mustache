@@ -1,0 +1,17 @@
+{{>layouts/header}}
+
+<!-- content -->
+<!-- form -->
+<hr>
+<form class="container" action="/articleForm/create" method="post">
+<div class="mb-3">
+    <label for="formGroupExampleInput" class="form-label">Title</label>
+    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="title" name="title">
+</div>
+<div class="mb-3">
+    <label for="formGroupExampleInput2" class="form-label">Content</label>
+    <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="content" name="content">
+</div>
+    <button type="submit">제출</button>
+</form>
+{{>layouts/footer}}
