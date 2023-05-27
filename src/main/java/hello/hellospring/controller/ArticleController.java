@@ -6,8 +6,12 @@ import hello.hellospring.repository.ArticleRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -18,7 +22,7 @@ public class ArticleController {
 
     @GetMapping("/article/new")
     public String showArticleForm(){
-        return "article_form";
+        return "article/article_form";
     }
     @PostMapping("/article/create")
     public String createArticle(ArticleForm articleForm) {
@@ -30,5 +34,18 @@ public class ArticleController {
         log.info(saved.toString());
 
         return "";
+    }
+
+    @GetMapping("/article/{id}")
+    public String getArticleWithId(@PathVariable Long id, Model model) {
+        Article articleEntity = articleRepository.findById(id).orElse(null);
+        log.info(articleEntity.toString());
+        model.addAttribute("article", articleEntity);
+        return "article/show";
+    }
+
+    @GetMapping("/articles")
+    public String getAllArticles() {
+        List<Article> articles = articleRepository.findAll()
     }
 }
