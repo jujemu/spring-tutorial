@@ -45,7 +45,10 @@ public class ArticleController {
     }
 
     @GetMapping("/articles")
-    public String getAllArticles() {
-        List<Article> articles = articleRepository.findAll()
+    public String getAllArticles(Model model) {
+        List<Article> articlesEntityList = articleRepository.findAll();
+        model.addAttribute("articles", articlesEntityList);
+
+        return "article/index";
     }
 }
