@@ -21,9 +21,10 @@ public class ArticleController {
     private ArticleRepository articleRepository;
 
     @GetMapping("/article/new")
-    public String showArticleForm(){
-        return "article/article_form";
+    public String showArticleForm() {
+        return "article/new";
     }
+
     @PostMapping("/article/create")
     public String createArticle(ArticleForm articleForm) {
         // dto to entity
@@ -50,5 +51,13 @@ public class ArticleController {
         model.addAttribute("articles", articlesEntityList);
 
         return "article/index";
+    }
+
+    @GetMapping("/article/{id}/edit")
+    public String editArticle(@PathVariable Long id, Model model) {
+        Article articleEntity = articleRepository.findById(id).orElse(null);
+        model.addAttribute("article", articleEntity);
+
+        return "article/edit";
     }
 }
