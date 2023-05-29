@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.print.MultiDoc;
 import java.util.List;
 
 @Controller
@@ -27,12 +28,12 @@ public class ArticleController {
 
     @PostMapping("/article/create")
     public String createArticle(ArticleForm articleForm) {
+        log.info("createArticle, " + articleForm.toString());
         // dto to entity
         Article article = articleForm.toEntity();
 
         // give entity repository to put on db
         Article saved = articleRepository.save(article);
-        log.info(saved.toString());
 
         return "redirect:/article/" + saved.getId();
     }
@@ -40,7 +41,6 @@ public class ArticleController {
     @GetMapping("/article/{id}")
     public String getArticleWithId(@PathVariable Long id, Model model) {
         Article articleEntity = articleRepository.findById(id).orElse(null);
-        log.info(articleEntity.toString());
         model.addAttribute("article", articleEntity);
         return "article/show";
     }
@@ -54,10 +54,20 @@ public class ArticleController {
     }
 
     @GetMapping("/article/{id}/edit")
-    public String editArticle(@PathVariable Long id, Model model) {
+    public String showEditorArticle(@PathVariable Long id, Model model) {
         Article articleEntity = articleRepository.findById(id).orElse(null);
         model.addAttribute("article", articleEntity);
 
         return "article/edit";
+    }
+
+    @PostMapping("/article/update")
+    public String editArticle(ArticleForm form) {
+        Article articleEntity = form.toEntity();
+        Article target = articleRepository.findById(articleEntity.getId()).orElse(null);
+        if (target != null) {
+            articleRepository.save(articleEntity);
+        }
+        return "redirect:/article/" + articleEntity.getId();
     }
 }
