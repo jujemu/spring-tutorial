@@ -1,11 +1,13 @@
 package hello.hellospring.dto;
 
 import hello.hellospring.entity.Article;
-import lombok.AllArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
+@Getter
+@Setter
 public class ArticleForm {
     private Long id;
     private String title;
