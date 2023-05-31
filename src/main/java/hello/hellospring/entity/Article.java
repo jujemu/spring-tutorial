@@ -12,6 +12,17 @@ import lombok.ToString;
 @ToString
 @Getter
 public class Article {
+    public Long getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getContent() {
+        return content;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,22 +30,6 @@ public class Article {
 
     @Column private String title;
     @Column private String content;
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 
     public void patch(Article article) {
         if (article.getTitle() != null) {
