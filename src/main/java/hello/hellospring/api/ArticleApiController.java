@@ -44,8 +44,21 @@ public class ArticleApiController {
         if (target == null || id != article.getId()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
-        Article updated = articleRepository.save(article);
+        target.patch(article);
+        Article updated = articleRepository.save(target);
         return ResponseEntity.status(HttpStatus.OK).body(updated);
     }
+
+    @DeleteMapping("/api/articles/{id}")
+    public ResponseEntity<Article> delete(@PathVariable Long id) {
+        Article target = articleRepository.findById(id).orElse(null);
+
+        if (target == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        articleRepository.delete(target);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
 
 }
